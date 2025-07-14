@@ -81,9 +81,9 @@ def plot_paper_trends(df):
     plt.grid(axis='y', linestyle='--', alpha=0.7)
     plt.legend(title='会议名称')
     plt.tight_layout()
-    plt.savefig('conference_trend.png', dpi=300)
+    plt.savefig('charts/conference_trend.png', dpi=300)  # 修改路径
     plt.show()
-
+    
 def generate_combined_wordcloud(df):
     """生成五年合并的关键词词云"""
     # 合并所有年份的论文标题
@@ -110,7 +110,7 @@ def generate_combined_wordcloud(df):
     plt.title('2020-2025年计算机科学领域研究热点', fontsize=20)
     plt.axis('off')
     plt.tight_layout()
-    plt.savefig('combined_wordcloud.png', dpi=300, bbox_inches='tight')
+    plt.savefig('charts/combined_wordcloud.png', dpi=300, bbox_inches='tight')  # 修改路径
     plt.show()
     
     # 提取高频关键词
@@ -127,7 +127,7 @@ def generate_combined_wordcloud(df):
     # 保存高频词到CSV
     word_freq_df = word_freq.reset_index()
     word_freq_df.columns = ['keyword', 'frequency']
-    word_freq_df.to_csv('top_keywords.csv', index=False)
+    word_freq_df.to_csv('top_keywords.csv', index=False)  # 修改路径
     
     # 绘制关键词频率条形图
     plt.figure(figsize=(14, 8))
@@ -137,7 +137,7 @@ def generate_combined_wordcloud(df):
     plt.xlabel('出现频率', fontsize=12)
     plt.ylabel('关键词', fontsize=12)
     plt.tight_layout()
-    plt.savefig('top_keywords_bar.png', dpi=300)
+    plt.savefig('charts/top_keywords_bar.png', dpi=300)  # 修改路径
     plt.show()
 
 def predict_paper_counts(df):
@@ -186,11 +186,17 @@ def predict_paper_counts(df):
         print(f"{conf} {next_year}年预测论文数: {predicted_next} (最近一年实际: {ts_data.iloc[-1]})")
     
     plt.tight_layout()
-    plt.savefig('prediction.png', dpi=300)
+    plt.savefig('charts/prediction.png', dpi=300)  # 修改路径
     plt.show()
 
 def main():
     """主函数，执行整个分析流程"""
+    # 创建 charts 文件夹（如果不存在）
+    charts_dir = 'charts'
+    if not os.path.exists(charts_dir):
+        os.makedirs(charts_dir)
+        print(f"创建文件夹: {charts_dir}")
+    
     # 定义会议列表和年份范围 (2020-2025)
     conferences = {
         'AAAI': 'aaai',
@@ -223,7 +229,7 @@ def main():
     generate_combined_wordcloud(df) # 任务3：五年合并关键词分析
     predict_paper_counts(df)       # 任务4：论文数量预测
     
-    print("\n分析完成！结果已保存为图像文件。")
+    print("\n分析完成！结果已保存到 charts 文件夹中。")  # 更新提示信息
 
 if __name__ == "__main__":
     main()
